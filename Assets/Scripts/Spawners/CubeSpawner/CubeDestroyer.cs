@@ -1,12 +1,16 @@
+using System;
 using System.Collections;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
-public class Destroyer : MonoBehaviour
+public class CubeDestroyer : MonoBehaviour
 {
-    [SerializeField] private Spawner _spawner;
+    [SerializeField] private CubeSpawner _spawner;
     [SerializeField] private float _minDisableTime = 2f;
     [SerializeField] private float _maxDisableTime = 5f;
 
+    public event Action<Cube> Destroyed;
+    
     private void OnEnable() => 
         _spawner.Collided += OnCollided;
 
@@ -22,5 +26,6 @@ public class Destroyer : MonoBehaviour
 
         yield return new WaitForSeconds(time);
         cube.gameObject.SetActive(false);
+        Destroyed?.Invoke(cube);
     }
 }

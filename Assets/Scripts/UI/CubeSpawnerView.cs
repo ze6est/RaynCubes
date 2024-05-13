@@ -1,0 +1,1 @@
+public class CubeSpawnerView : SpawnerInfoView<CubeSpawner, Cube>{}

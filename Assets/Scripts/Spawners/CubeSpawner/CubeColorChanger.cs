@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using UnityEngine;
 
-public class ColorChanger : MonoBehaviour
+public class CubeColorChanger : MonoBehaviour
 {
-    [SerializeField] private Spawner _spawner;
+    [SerializeField] private CubeSpawner _spawner;
     [SerializeField] private Color _fallColor = Color.black;
     [SerializeField] private List<Color> _colors = new List<Color>();
 

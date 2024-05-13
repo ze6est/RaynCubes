@@ -18,6 +18,8 @@ public class ObjectsPool<T> where T : MonoBehaviour
 
         CreatePool(capacity);
     }
+    
+    public int CountActiveObjects { get; private set; }
 
     public T GetFreeObject()
     {
@@ -28,6 +30,13 @@ public class ObjectsPool<T> where T : MonoBehaviour
             return CreateObject();
 
         throw new Exception($"No free objects in pool of type {typeof(T)}");
+    }
+
+    public void Release(T obj)
+    {
+        obj.gameObject.SetActive(false);
+        CountActiveObjects--;
+        _pool.Add(obj);
     }
 
     private void CreatePool(int capacity)
@@ -54,6 +63,8 @@ public class ObjectsPool<T> where T : MonoBehaviour
             {
                 obj = element;
                 obj.gameObject.SetActive(true);
+                CountActiveObjects++;
+                _pool.Remove(obj);
                 return true;
             }
         }
