@@ -11,20 +11,22 @@ public abstract class Spawner<T> : MonoBehaviour where T : MonoBehaviour
     
     private ObjectsPool<T> _pool;
     
-    public int CountCreatedObjects { get; private set; }
-    
     public event Action<T> Spawned;
     public event Action<int> CountActivedObjectsChanged;
+    
+    public int CountCreatedObjects { get; private set; }
     
     private void Awake() => 
         _pool = new ObjectsPool<T>(_prefab, transform, _isAutoExpandPool, _poolCapacity);
     
-    protected void Spawn(out T @object)
+    protected T Spawn()
     {
-        @object = _pool.GetFreeObject();
+        T @object = _pool.GetFreeObject();
         CountCreatedObjects++;
         CountActivedObjectsChanged?.Invoke(_pool.CountActiveObjects);
         Spawned?.Invoke(@object);
+
+        return @object;
     }
 
     protected void Release(T @object)

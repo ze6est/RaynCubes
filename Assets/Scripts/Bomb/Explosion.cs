@@ -3,15 +3,18 @@ using UnityEngine;
 
 public class Explosion : MonoBehaviour
 {
-    [SerializeField] private Bomb _bomb;
+    [SerializeField] private BombColorChanger _bombColorChanger;
     [SerializeField] private float _radius;
     [SerializeField] private float _force;
 
-    private void Start() => 
-        _bomb.Disabled += Explode;
+    private void Awake() => 
+        _bombColorChanger.ColorChanged += OnColorChanged;
 
     private void OnDestroy() => 
-        _bomb.Disabled -= Explode;
+        _bombColorChanger.ColorChanged -= OnColorChanged;
+
+    private void OnColorChanged(Bomb bomb) => 
+        Explode();
 
     private void Explode()
     {

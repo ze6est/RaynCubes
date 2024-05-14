@@ -2,25 +2,32 @@ using UnityEngine;
 
 public class BombSpawner : Spawner<Bomb>
 {
-    [SerializeField] private CubeDestroyer _cubeDestroyer;
-    [SerializeField] private BombDestroyer _bombDestroyer;
+    [Header("Settings")]
+    [SerializeField] private CubeSpawner _cubeSpawner;
     
-    private void OnEnable()
-    {
-        _cubeDestroyer.Destroyed += OnDestroyed;
-        _bombDestroyer.Destroyed += Release;
-    }
+    private void OnEnable() => 
+        _cubeSpawner.Destroyed += OnCubeDestroyed;
 
-    private void OnDisable()
-    {
-        _cubeDestroyer.Destroyed -= OnDestroyed;
-        _bombDestroyer.Destroyed -= Release;
-    }
+    private void OnDisable() => 
+        _cubeSpawner.Destroyed -= OnCubeDestroyed;
 
-    private void OnDestroyed(Cube cube)
+    private void OnCubeDestroyed(Cube cube)
     {
-        Spawn(out Bomb bomb);
+        Bomb bomb = Spawn();
+
+        if (bomb.TryGetComponent(out BombDestroyer bombDestroyer)) 
+            bombDestroyer.Destroyed += OnDestroyed;
+
+        bomb.Enable();
         SetPosition(bomb, cube.transform.position);
+    }
+    
+    private void OnDestroyed(Bomb bomb)
+    {
+        Release(bomb);
+        
+        if (bomb.TryGetComponent(out BombDestroyer bombDestroyer)) 
+            bombDestroyer.Destroyed -= OnDestroyed;
     }
 
     private void SetPosition(Bomb bomb, Vector3 position) => 

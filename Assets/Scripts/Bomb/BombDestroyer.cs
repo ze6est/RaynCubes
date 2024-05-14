@@ -7,16 +7,12 @@ public class BombDestroyer : MonoBehaviour
 
     public event Action<Bomb> Destroyed;
     
-    private void OnEnable() => 
+    private void Awake() => 
         _bombColorChanger.ColorChanged += OnColorChanged;
 
-    private void OnDisable() => 
+    private void OnDestroy() => 
         _bombColorChanger.ColorChanged -= OnColorChanged;
 
-    private void OnColorChanged(Bomb bomb)
-    {
-        bomb.gameObject.SetActive(false);
+    private void OnColorChanged(Bomb bomb) => 
         Destroyed?.Invoke(bomb);
-        bomb.Disable();
-    }
 }

@@ -36,7 +36,6 @@ public class ObjectsPool<T> where T : MonoBehaviour
     {
         obj.gameObject.SetActive(false);
         CountActiveObjects--;
-        _pool.Add(obj);
     }
 
     private void CreatePool(int capacity)
@@ -64,7 +63,6 @@ public class ObjectsPool<T> where T : MonoBehaviour
                 obj = element;
                 obj.gameObject.SetActive(true);
                 CountActiveObjects++;
-                _pool.Remove(obj);
                 return true;
             }
         }

@@ -15,6 +15,8 @@ GameObject:
   - component: {fileID: 8225199058829874232}
   - component: {fileID: 3314431142288723549}
   - component: {fileID: 1782393735294745143}
+  - component: {fileID: 7376665504416186262}
+  - component: {fileID: -1924545856380052450}
   m_Layer: 0
   m_Name: Bomb
   m_TagString: Untagged
@@ -159,6 +161,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 699c7e82fcd8aad4eaa9d5f7f0c8dc27, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _bomb: {fileID: 3314431142288723549}
+  _bombColorChanger: {fileID: 7376665504416186262}
   _radius: 5
   _force: 700
+--- !u!114 &7376665504416186262
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4042229410361773039}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3bcd5721f6727784fad8fa5f3bd19e3a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _bomb: {fileID: 3314431142288723549}
+  _renderer: {fileID: 3334114998216033337}
+  _startColor: {r: 0, g: 0, b: 0, a: 1}
+  _endColor: {r: 0, g: 0, b: 0, a: 0}
+  _minTime: 2
+  _maxTime: 5
+--- !u!114 &-1924545856380052450
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4042229410361773039}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9e6f16a11c6b1f4a9c471245d2b321e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _bombColorChanger: {fileID: 7376665504416186262}

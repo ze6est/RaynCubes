@@ -14,6 +14,8 @@ GameObject:
   - component: {fileID: 8035010290282830883}
   - component: {fileID: -3374195950639316346}
   - component: {fileID: -8333397121115255842}
+  - component: {fileID: 6674661660960948975}
+  - component: {fileID: 7804001929524729490}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Untagged
@@ -34,7 +36,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &8698006906213790727
 MeshFilter:
@@ -64,7 +66,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 39ceb2f69e4743d499b59820957feb2e, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -146,4 +148,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ffeef849b13e264aac8f3a6852e9160, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _rigidbody: {fileID: -3374195950639316346}
+--- !u!114 &6674661660960948975
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8068640070478865181}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1671263eeeea3364a84cbef35e52e05c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _cube: {fileID: -8333397121115255842}
+  _minDisableTime: 2
+  _maxDisableTime: 5
+--- !u!114 &7804001929524729490
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8068640070478865181}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e729a97eafc15094f87568a49217f7b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _cubeDestroyer: {fileID: 6674661660960948975}
+  _renderer: {fileID: 6407787394622932766}
+  _fallColor: {r: 0, g: 0, b: 0, a: 1}
+  _colors:
+  - {r: 0.6132076, g: 0.00867745, b: 0.00867745, a: 1}
+  - {r: 0, g: 0.0119549725, b: 0.5849056, a: 1}
+  - {r: 0.023932159, g: 0.5, b: 0, a: 1}

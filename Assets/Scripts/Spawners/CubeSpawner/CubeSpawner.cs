@@ -5,21 +5,26 @@ using Random = UnityEngine.Random;
 
 public class CubeSpawner : Spawner<Cube>
 {
-    [SerializeField] private CubeDestroyer _cubeDestroyer;
-    [SerializeField] private Platform _platform;
+    [Header("Settings")]
+    [SerializeField] private Platform[] _platforms;
     [SerializeField] private float _height;
     [SerializeField] private float _spawnDelay = 1f;
     
-    public event Action<Cube> Collided;
+    public event Action<Cube> Destroyed;
     
-    private void Start()
-    {
+    private void Start() => 
         StartCoroutine(SpawnCubes());
-        _cubeDestroyer.Destroyed += Release;
-    }
-
-    private void OnDestroy() => 
-        _cubeDestroyer.Destroyed -= Release;
+    
+    private void OnDestroyed(Cube cube)
+    {
+        Release(cube);
+        Destroyed?.Invoke(cube);
+        
+        if (cube.TryGetComponent(out CubeDestroyer cubeDestroyer))
+        {
+            cubeDestroyer.Destroyed -= OnDestroyed;
+        }
+    }    
 
     private IEnumerator SpawnCubes()
     {
@@ -27,9 +32,22 @@ public class CubeSpawner : Spawner<Cube>
 
         while (true)
         {
-            Spawn(out Cube freeCube);
+            Cube freeCube = Spawn();
+            
+            if (freeCube.TryGetComponent(out CubeDestroyer cubeDestroyer))
+            {
+                cubeDestroyer.Destroyed += OnDestroyed;
+            }
+
+            if (freeCube.TryGetComponent(out Rigidbody rigidbody))
+            {
+                rigidbody.velocity = Vector3.zero;
+                rigidbody.angularVelocity = Vector3.zero;
+            }
+
+            freeCube.transform.rotation = Quaternion.Euler(0, 0, 0);
+            
             SetPosition(freeCube);
-            freeCube.Collided += OnCollided;
 
             yield return wait;
         }
@@ -37,19 +55,15 @@ public class CubeSpawner : Spawner<Cube>
     
     private void SetPosition(Cube cube)
     {
-        Renderer renderer = _platform.GetComponent<Renderer>();
+        Platform platform = _platforms[Random.Range(0, _platforms.Length)];
+        
+        Renderer renderer = platform.GetComponent<Renderer>();
         Bounds bounds = renderer.bounds;
         float objectScale = cube.transform.localScale.x;
 
-        float positionX = bounds.size.x / 2 - objectScale / 2;
-        float positionZ = bounds.size.z / 2 - objectScale / 2;
+        float positionX = Random.Range(bounds.max.x - objectScale / 2, bounds.min.x + objectScale / 2);
+        float positionZ = Random.Range(bounds.max.z - objectScale / 2, bounds.min.z + objectScale / 2);
         
-        cube.transform.position = new Vector3(Random.Range(-positionX, positionX), _height, Random.Range(-positionZ, positionZ));
+        cube.transform.position = new Vector3(positionX, _height, positionZ);
     }
-
-    private void OnCollided(Cube cube)
-    {
-        Collided?.Invoke(cube);        
-        cube.Collided -= OnCollided;
-    }    
 }
